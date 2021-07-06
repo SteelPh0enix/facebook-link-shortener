@@ -18,6 +18,7 @@ Pretty sure it'll run on Linux and Windows, not sure about MacOS. The compatibil
 ## Contributing / Issues
 
 Just make a PR, i'll check it out in free time
+
 If you'll find an issue, just report it in Issues.
 
 ## License
