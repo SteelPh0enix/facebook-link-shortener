@@ -6,6 +6,10 @@ This is a simple program, written in Rust, that runs in background and checks ev
 
 Simply, run `cargo build --release`
 
+## Testing
+
+There are unit tests in every module - run `cargo test` to execute them.
+
 ## Running
 
 Probably the best way to run this program is either adding it to autostart, or creating a system service to automatically start it with OS.
