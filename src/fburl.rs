@@ -1,9 +1,11 @@
 use log::{debug, trace};
 extern crate pretty_env_logger;
 
-const FBID_PATTERNS: [&str; 3] = [
+const FBID_PATTERNS: [&str; 5] = [
   "&__cft__",
   "?__cft__",
+  "&__eep__",
+  "?__eep__",
   "&hoisted_section_header_type=recently_seen",
 ];
 const FBURL_PATTERNS: [&str; 3] = ["facebook.", "fb.", "fbcdn."];
@@ -78,6 +80,13 @@ mod test {
       "https://www.facebook.com/hashtag/monitor?__eep__=6&__cft__[0]=AZXltGNClTyhjkJUhkY7HsqhFdsfHWTsvGcSG8Flxp7G3VZBolOk8ccnsKx2z6f10PInBExGLqMsvfzKxBdLfiE1hjsx_SE_67-879CnRn3NvMMmA125yKE_CXSHfiYAS4MW6eE-c7PTe3dOsdKwmDaWjLMdyQ0ywWAMF3G4zfAmlv27h1MKcaTRNlHGqz46qLA&__tn__=*NK-R",
     ];
 
+  const CLEANED_FACEBOOK_URLS: [&str; 4] = [
+    "https://www.facebook.com/groups/414809682046969/?multi_permalinks=1652888561572402",
+    "https://www.facebook.com/ads/about/",
+    "https://www.facebook.com/taniabaniapl/posts/4403885436302581",
+    "https://www.facebook.com/hashtag/monitor",
+  ];
+
   const CLEAN_FACEBOOK_URLS: [&str; 9] = [
       "www.facebook.com",
       "https://www.facebook.com/",
@@ -132,6 +141,16 @@ mod test {
     for url in CLEAN_FACEBOOK_URLS {
       println!("Checking if {} IS NOT a long facebook URL", url);
       assert_eq!(super::is_dirty_facebook_url(url), false);
+    }
+  }
+
+  #[test]
+  fn check_link_shortening() {
+    initialize();
+
+    for (dirty_url, clean_url) in DIRTY_FACEBOOK_URLS.iter().zip(CLEANED_FACEBOOK_URLS.iter()) {
+      println!("Shortening\n{}\nto\n{}", dirty_url, clean_url);
+      assert_eq!(super::shorten_facebook_url(dirty_url).eq(clean_url), true);
     }
   }
 }
